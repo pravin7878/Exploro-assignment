@@ -3,7 +3,7 @@ import {  useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaCalendarAlt, FaMoneyBillWave, FaUsers, FaRegClock, FaQuestionCircle } from 'react-icons/fa'; // Importing icons
 import Loading from "../../components/Loading";
-import Error from '../../components/ErrorPage';
+import Error from '../../components/ErrorPage.jsx';
 import { getTripById } from '../../../store/actions/trips';
 import { addToCart } from '../../../store/actions/carts';
 
