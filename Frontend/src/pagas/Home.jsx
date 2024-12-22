@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
 import { TripsCont } from './trips/TripsCont'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCartData } from '../../store/actions/carts'
