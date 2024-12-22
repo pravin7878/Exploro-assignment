@@ -43,10 +43,8 @@ const cartSlice = createSlice({
         state.error = null;
       })
       .addCase(addToCart.fulfilled, (state, { payload }) => {
+        state.error = null;
         state.isLoading = false;
-        state.trips = payload?.trips || [];
-        state.totalItem = state.trips.length;
-        saveCartToLocalStorage(state);
         toast.success(payload?.message || "Item added to cart successfully!");
       })
       .addCase(addToCart.rejected, (state, { payload }) => {
@@ -81,9 +79,6 @@ const cartSlice = createSlice({
       })
       .addCase(removeFromCart.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        state.trips = payload?.trips || [];
-        state.totalItem = payload?.trips?.length;
-        saveCartToLocalStorage(state);
         toast.success(payload?.message || "Item removed from cart.");
       })
       .addCase(removeFromCart.rejected, (state, { payload }) => {

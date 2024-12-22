@@ -4,7 +4,6 @@ import LoadingSpinner from "../utils/SuspanceLoadin";
 const UserAuthInfo = lazy(()=>import("../utils/UserAuthInfo"))
 
 const Navbar = () => {
-    console.log("resender nevbar");
     
     return (
         <nav className="bg-blue-600 text-white px-4 py-3 flex justify-between items-center">

@@ -2,44 +2,43 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearCart, removeFromCart } from '../../store/actions/carts';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 export const CartPage = () => {
     const dispatch = useDispatch();
+    const {result} = useSelector((state) => state.auth);
+    /*
+    error: null
+    isLoading: false
+    totalItem: 2
+    trips: [{}]
+    */
 
-    // Fetch cart state from Redux store
     const { trips, totalItem, isLoading, error } = useSelector((state) => state.cart);
-    // const trips = tripId
-    console.log("trips", trips);
-    // console.log(tripId);
-    // Calculate total price
-    const totalPrice = trips.reduce((acc, trip) => acc + trip.tripId.price * trip.tripId.quantity, 0);
-console.log(totalPrice);
+    
+    const totalPrice = trips.reduce((acc, trip) => acc + trip.price * trip.quantity, 0);
 
-    // Handle clearing the cart
+
     const handleClearCart = () => {
-        dispatch(clearCart());
-        toast.success('Cart cleared successfully!');
+        dispatch(clearCart({ url: `${import.meta.env.VITE_APP_BACKEND_URL}/cart`, token: result?.user?.accessToken }));
     };
 
-    // Handle deleting a single cart item
     const handleDeleteItem = (tripId) => {
-        dispatch(removeFromCart(tripId));
-        toast.success('Item removed from cart.');
+        dispatch(removeFromCart({ url: `${import.meta.env.VITE_APP_BACKEND_URL}/cart/${tripId}`, token: result?.user?.accessToken }));
     };
 
-    // Handle checkout
     const handleCheckout = () => {
         if (trips.length === 0) {
             toast.error('Your cart is empty. Add items before checking out.');
             return;
         }
-        // Replace this with actual checkout functionality
         toast.success('Proceeding to checkout!');
         console.log('Checkout initiated with items:', trips);
     };
 
     return (
         <div className="container mx-auto p-4">
+            <Link to={"/"} className='bg-red-500 text-white font-bold px-3 py-2 rounded-md'>Back To Home</Link>
             <h1 className="text-2xl font-bold mb-6 text-center">Your Cart</h1>
 
             {/* Show loading spinner if data is loading */}

@@ -1,16 +1,20 @@
 import React from 'react';
 import { format } from 'date-fns';
 import { FaRegCalendarAlt, FaRegClock, FaRegUser } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../../store/actions/carts';
 
 const TripCard = ({ trip }) => {
     const { name, description, startDate, endDate, price, slotsAvailable, cancellationPolicy } = trip;
-    const { result } = useSelector(state=>state.auth)
+    const { result, isLogged } = useSelector(state=>state.auth)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
     
-const dispatch = useDispatch()
     const hendelAddToCart = (tripId)=>{
+        if (!isLogged){
+            return navigate("/user/login")
+        }
         dispatch(addToCart({ url: `${import.meta.env.VITE_APP_BACKEND_URL}/cart/add`, tripId, token: result?.user?.accessToken  }))
     }
     return (

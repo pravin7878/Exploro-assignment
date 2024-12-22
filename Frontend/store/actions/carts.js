@@ -4,7 +4,7 @@ import axios from "axios";
 // Add to Cart
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
-  async ({ url, tripId, token }, { rejectWithValue }) => {
+  async ({ url, tripId, token }, { rejectWithValue , dispatch , getState }) => {
     try {
       const res = await axios.post(
         url,
@@ -13,6 +13,7 @@ export const addToCart = createAsyncThunk(
            headers: { Authorization: `Bearer ${token}` },
         }
     );
+      dispatch(getCartData({ url: `${import.meta.env.VITE_APP_BACKEND_URL}/cart` , token }));      
       return res.data;
     } catch (error) {
       return rejectWithValue(
@@ -42,11 +43,17 @@ export const getCartData = createAsyncThunk(
 // Remove from Cart
 export const removeFromCart = createAsyncThunk(
   "cart/removeFromCart",
-  async ({ url, token }, { rejectWithValue }) => {
+  async ({ url, token }, { rejectWithValue , dispatch}) => {
     try {
       const res = await axios.delete(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      dispatch(
+        getCartData({
+          url: `${import.meta.env.VITE_APP_BACKEND_URL}/cart`,
+          token,
+        })
+      ); 
       return res.data;
     } catch (error) {
       return rejectWithValue(
@@ -59,11 +66,17 @@ export const removeFromCart = createAsyncThunk(
 // Clear Cart
 export const clearCart = createAsyncThunk(
   "cart/clearCart",
-  async ({ url, token }, { rejectWithValue }) => {
+  async ({ url, token }, { rejectWithValue,dispatch }) => {
     try {
       const res = await axios.delete(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
+       dispatch(
+         getCartData({
+           url: `${import.meta.env.VITE_APP_BACKEND_URL}/cart`,
+           token,
+         })
+       ); 
       return res.data;
     } catch (error) {
       return rejectWithValue(

@@ -1,15 +1,27 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import {  useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaCalendarAlt, FaMoneyBillWave, FaUsers, FaRegClock, FaQuestionCircle } from 'react-icons/fa'; // Importing icons
 import Loading from "../../components/Loading";
 import ErrorPage from '../../components/ErrorPage';
 import { getTripById } from '../../../store/actions/trips';
+import { addToCart } from '../../../store/actions/carts';
 
 const TripDetails = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const { tripInfo, isLoading, error } = useSelector(state => state.trips);
+    const { isLogged, result } = useSelector(state => state.auth);
+
+
+    const hendelAddToCart = (tripId) => {
+        if (!isLogged) {
+            return navigate("/user/login")
+        }
+        dispatch(addToCart({ url: `${import.meta.env.VITE_APP_BACKEND_URL}/cart/add`, tripId, token: result?.user?.accessToken }))
+        navigate("/")
+    }
 
     useEffect(() => {
         dispatch(getTripById({ url: `${import.meta.env.VITE_APP_BACKEND_URL}/trips/${id}` }));
@@ -24,7 +36,7 @@ const TripDetails = () => {
     }
 
     if (tripInfo) {
-        const { name, description, startDate, endDate, price, slotsAvailable, cancellationPolicy} = tripInfo;
+        const { name, description, startDate, endDate, price, slotsAvailable, cancellationPolicy , _id} = tripInfo;
        const imageUrl = "https://cdn.pixabay.com/photo/2016/03/26/22/34/snow-1281636_1280.jpg" 
         // Mock data for additional information
         const itinerary = [
@@ -52,6 +64,8 @@ const TripDetails = () => {
                 answer: "While the trek is challenging, it is suitable for those with a basic level of fitness. Our guides will ensure everyone is supported along the way."
             }
         ];
+
+ 
 
         return (
             <div className="container mx-auto py-6 px-6 sm:px-6 lg:px-8">
@@ -122,7 +136,9 @@ const TripDetails = () => {
 
                     <div className="mt-8 flex justify-between items-center flex-col sm:flex-row">
                         <p className="text-lg sm:text-xl font-semibold text-blue-600">${price}</p>
-                        <button className="mt-4 sm:mt-0 bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700">
+                        <button 
+                            onClick={() => hendelAddToCart(_id)}
+                         className="mt-4 sm:mt-0 bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700">
                             Book Now
                         </button>
                     </div>
