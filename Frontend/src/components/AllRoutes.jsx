@@ -1,14 +1,14 @@
 import React from 'react'
-import Login from '../pagas/loginPage'
+import Login from '../pagas/Login'
 import { Home } from '../pagas/Home'
 import Register from '../pagas/Registration'
 import Dashboard from '../pagas/Deshboard'
 import { Route, Routes } from 'react-router-dom'
 import { PrivateRoute } from './PrivateRoute'
-import AdminLogin from '../pagas/admin'
 import TripDetails from '../pagas/trips/TripDetailPage'
 import { CartPage } from '../pagas/CartPage'
-// import AddLeadForm from '../pagas/leads/AddNewLead'
+import TripForm from './deshbord/TripForm'
+import TripList from './deshbord/TripList'
 
 export const AllRoutes = () => {
   return (
@@ -16,18 +16,18 @@ export const AllRoutes = () => {
           <Route path="/" element={<Home />} />
           <Route path="/user/login" element={<Login />} />
           <Route path="/user/register" element={<Register />} />
-          {/* <Route path="/dashboard" element={
+         <Route path="/dashboard" element={
               <PrivateRoute>
                   <Dashboard />
               </PrivateRoute>
-          } />
-          <Route path="/addnew" element={
-              <PrivateRoute>
-                  <AddLeadForm />
-              </PrivateRoute>
-          } />
+          }>
+                  <Route index element={<TripList />} />
+                  <Route path="trips/new" element={<TripForm />} />
+                  {/* <Route path="settings" element={<Settings />} /> */}
+                  {/* <Route path="profile" element={<Profile />} /> */}
+          </Route>
+         
 
-          <Route path='/admin/login' element={<AdminLogin/>}/> */}
           <Route path="/trips/:id" element={<TripDetails />} />
           <Route path="/cart" element={
             <PrivateRoute>

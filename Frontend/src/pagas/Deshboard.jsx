@@ -1,41 +1,26 @@
 import React, { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
+import Sidebar from '../components/deshbord/Sidebar';
+import { getTrips } from '../../store/actions/trips';
 import { useDispatch, useSelector } from 'react-redux';
-// import { getLeads } from '../../store/actions/lead';
-// import { LeadsContener } from './leads/LeadsContener';/
 
-const Deshboard = () => {
-    const dispatch = useDispatch();
-    const { user } = useSelector(state => state.auth);
-    console.log(useSelector(state => state.auth));
+const Dashboard = () => {
     
-
-    // useEffect(() => {
-    //     dispatch(
-    //         getLeads({
-    //             url: `${import.meta.env.VITE_APP_BACKEND_URL}/leads`,
-    //             token: user?.user?.token,
-    //         })
-    //     );
-    // }, []);
-
     return (
-        <div className="min-h-screen bg-gray-50 px-6 py-8">
-            <div className="mx-auto">
-                {/* Header */}
-                <div className="text-center ">
-                    <h3 className="text-2xl text-red-500 font-bold ">
-                        Welcome to the Dashboard
-                    </h3>
-                    <p className="text-gray-600">Manage and view your leads below</p>
-                </div>
+        <div className="flex min-h-screen bg-gray-100">
+            <Sidebar />
 
-                {/* Leads Section */}
-                <div className="bg-white shadow rounded-lg p-6">
-                    <LeadsContener />
-                </div>
+            {/* Main content area */}
+            <div className="flex-1 p-6 bg-white shadow-lg rounded-lg m-6">
+                <header className="mb-6">
+                    <h2 className="text-3xl font-semibold text-gray-700">Welcome to Your Dashboard</h2>
+                </header>
+
+                {/* Nested routes will be rendered here */}
+                <Outlet />
             </div>
         </div>
     );
 };
 
-export default Deshboard;
+export default Dashboard;

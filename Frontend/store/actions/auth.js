@@ -18,9 +18,9 @@ export const registerNewUser = createAsyncThunk(
 // hendel login
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
-  async ({ url, userData }, { rejectWithValue }) => {
+  async ({ url, data }, { rejectWithValue }) => {
     try {
-      const res = await axios.post(url, userData);
+      const res = await axios.post(url, data);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response ? err.response.data : err.message);
@@ -28,11 +28,3 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const loginAdmin = createAsyncThunk("auth/loginAdmin" , async ({url , adminData} , {rejectWithValue}) => {
-  try {
-    const res = await axios.post(url, adminData)
-    return res.data
-  } catch (err) {
-    return rejectWithValue(err.response ? err.response.data : err.message);
-  }
-})
