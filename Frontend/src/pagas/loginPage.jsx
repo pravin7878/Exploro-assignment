@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { resetState } from "../../store/slices/authSlice";
 import { loginUser } from "../../store/actions/auth";
 import { toast } from "react-toastify";
+import { organizer } from "../scripts/constent";
 
 
 const Login = () => {
@@ -14,7 +15,7 @@ const Login = () => {
   const [isError, setisError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate()
-  const { error: errorMessage, isLoading, isRegister, isLogged } = useSelector(state => state.auth);
+  const { error: errorMessage, isLoading, isRegister, isLogged, result: { user } } = useSelector(state => state.auth);
 
 
 
@@ -43,7 +44,7 @@ const Login = () => {
     const userData = { email, password };
     dispatch(
       loginUser({
-        url: `${import.meta.env.VITE_APP_BACKEND_URL}/user/login`,
+        url: `${import.meta.env.VITE_APP_BACKEND_URL}/users/login`,
         userData,
       })
     );
@@ -63,7 +64,9 @@ const Login = () => {
       passwordRef.current.value = ""
 
       setTimeout(() => {
-        navigate("/dashboard", { replace: true });
+        navigate(`${user.role === organizer ? "/dashboard"
+            :
+            "/"}`, { replace: true });
       }, 1000)
     }
     if (errorMessage) {

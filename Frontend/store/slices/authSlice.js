@@ -7,7 +7,7 @@ import { registerNewUser , loginUser } from "../actions/auth";
 const initialState = {
   isRegister: false,
   isLogged: JSON.parse(localStorage.getItem("isLogged")) || false, // Check if user is logged in from localStorage
-  user: JSON.parse(localStorage.getItem("user")) || {}, // Retrieve user data from localStorage
+  result: JSON.parse(localStorage.getItem("user")) || {}, // Retrieve user data from localStorage
   isLoading: false,
   error: "",
 };
@@ -21,7 +21,7 @@ const authSlice = createSlice({
     resetState: () => initialState,
     logoutUser: (state) => {
       state.isLogged = false;
-      state.user = {}
+      state.result = {};
       state.error = ""
       state.isRegister = ""
 
@@ -43,7 +43,7 @@ const authSlice = createSlice({
       .addCase(registerNewUser.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         state.isRegister = true;
-        state.user = payload;
+        state.result = payload;
         state.error = "";
       })
       // Login Thunk
@@ -57,7 +57,7 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         state.isLogged = true;
-        state.user = payload;
+        state.result = payload;
         state.error = ""
 
         // Save user data and isLogged state to localStorage

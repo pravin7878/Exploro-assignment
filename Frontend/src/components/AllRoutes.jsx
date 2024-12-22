@@ -6,7 +6,8 @@ import Dashboard from '../pagas/Deshboard'
 import { Route, Routes } from 'react-router-dom'
 import { PrivateRoute } from './PrivateRoute'
 import AdminLogin from '../pagas/admin'
-import AddLeadForm from '../pagas/leads/AddNewLead'
+import TripDetails from '../pagas/trips/TripDetailPage'
+// import AddLeadForm from '../pagas/leads/AddNewLead'
 
 export const AllRoutes = () => {
   return (
@@ -14,7 +15,7 @@ export const AllRoutes = () => {
           <Route path="/" element={<Home />} />
           <Route path="/user/login" element={<Login />} />
           <Route path="/user/register" element={<Register />} />
-          <Route path="/dashboard" element={
+          {/* <Route path="/dashboard" element={
               <PrivateRoute>
                   <Dashboard />
               </PrivateRoute>
@@ -25,8 +26,8 @@ export const AllRoutes = () => {
               </PrivateRoute>
           } />
 
-          <Route path='/admin/login' element={<AdminLogin/>}/>
-          {/* <Route path="/dashboard/file/:_id" element={<SingalFileCard />} /> */}
+          <Route path='/admin/login' element={<AdminLogin/>}/> */}
+          <Route path="/trips/:id" element={<TripDetails />} />
           {/* <Route path='/private' element={<PrivateRoute />} /> */}
       </Routes>
   )

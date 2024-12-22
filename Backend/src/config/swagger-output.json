@@ -10,7 +10,6 @@
   "schemes": [
     "http"
   ],
-
   "components": {
     "securitySchemes": {
       "BearerAuth": {
@@ -20,10 +19,7 @@
       }
     }
   },
-
-
   "paths": {
-
     "/": {
       "get": {
         "summary": "Get API status",
@@ -38,7 +34,6 @@
         ]
       }
     },
-
     "/users/register": {
       "post": {
         "summary": "Register a new user",
@@ -80,7 +75,6 @@
         ]
       }
     },
-
     "/users/login": {
       "post": {
         "summary": "User login",
@@ -121,7 +115,6 @@
         ]
       }
     },
-
     "/users/logout": {
       "post": {
         "summary": "User logout",
@@ -139,7 +132,6 @@
         ]
       }
     },
-
     "/users/refresh-token": {
       "post": {
         "summary": "Refresh JWT token",
@@ -176,7 +168,6 @@
         ]
       }
     },
-
     "/organizer/register": {
       "post": {
         "summary": "Register a new organizer",
@@ -218,7 +209,6 @@
         ]
       }
     },
-
     "/trips/": {
       "get": {
         "summary": "Get all trips",
@@ -301,7 +291,6 @@
         ]
       }
     },
-
     "/trips/{id}": {
       "get": {
         "summary": "Get a specific trip",
@@ -391,7 +380,207 @@
         ]
       }
     },
-
+    "/cart/add": {
+      "post": {
+        "summary": "Add a trip to the cart",
+        "description": "This endpoint adds a trip to the user's cart. If the trip is already in the cart, it increments the quantity.",
+        "operationId": "addToCart",
+        "tags": [
+          "Cart"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tripId": {
+                    "type": "string",
+                    "description": "The unique ID of the trip to add to the cart"
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "default": 1,
+                    "description": "The quantity of the trip to add to the cart"
+                  }
+                },
+                "required": [
+                  "tripId"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Trip successfully added to the cart",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Trip added to cart"
+                    },
+                    "cart": {
+                      "type": "object",
+                      "properties": {
+                        "userId": {
+                          "type": "string",
+                          "description": "The user's ID"
+                        },
+                        "trips": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "tripId": {
+                                "type": "string",
+                                "description": "The unique ID of the trip"
+                              },
+                              "quantity": {
+                                "type": "integer",
+                                "description": "The quantity of the trip in the cart"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request data"
+          }
+        }
+      }
+    },
+    "/cart": {
+      "get": {
+        "summary": "Get the user's cart details",
+        "description": "This endpoint retrieves the details of the user's cart.",
+        "operationId": "getCart",
+        "tags": [
+          "Cart"
+        ],
+        "responses": {
+          "200": {
+            "description": "Cart details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userId": {
+                      "type": "string",
+                      "description": "The user's ID"
+                    },
+                    "trips": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "tripId": {
+                            "type": "string",
+                            "description": "The unique ID of the trip"
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "description": "The quantity of the trip in the cart"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - User needs to be authenticated"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Clear the user's entire cart",
+        "description": "This endpoint clears all trips from the user's cart.",
+        "operationId": "clearCart",
+        "tags": [
+          "Cart"
+        ],
+        "responses": {
+          "200": {
+            "description": "Cart cleared successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Cart cleared successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - User needs to be authenticated"
+          }
+        }
+      }
+    },
+    "/cart/{tripId}": {
+      "delete": {
+        "summary": "Remove a trip from the cart",
+        "description": "This endpoint removes a specific trip from the user's cart.",
+        "operationId": "removeFromCart",
+        "tags": [
+          "Cart"
+        ],
+        "parameters": [
+          {
+            "name": "tripId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the trip to remove from the cart",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trip removed from cart successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Trip removed from cart"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Trip not found in the cart"
+          },
+          "401": {
+            "description": "Unauthorized - User needs to be authenticated"
+          }
+        }
+      }
+    },
     "/bookings/checkout": {
       "post": {
         "summary": "Checkout booking",
@@ -412,7 +601,6 @@
         ]
       }
     },
-
     "/bookings/": {
       "get": {
         "summary": "Get all bookings",
@@ -430,7 +618,6 @@
         ]
       }
     },
-
     "/bookings/{id}": {
       "get": {
         "summary": "Get a specific booking",
@@ -459,7 +646,6 @@
         ]
       }
     },
-
     "/bookings/{id}/cancel": {
       "put": {
         "summary": "Cancel a booking",
@@ -502,7 +688,6 @@
         ]
       }
     },
-
     "/bookings/{id}/quantity": {
       "put": {
         "summary": "Update booking quantity",
@@ -545,7 +730,6 @@
         ]
       }
     },
-
     "/bookings/{id}/refund": {
       "put": {
         "summary": "Process refund",
@@ -589,7 +773,6 @@
       }
     }
   },
-
   "definitions": {
     "User": {
       "type": "object",
@@ -612,7 +795,10 @@
         },
         "role": {
           "type": "string",
-          "enum": ["customer", "organizer"],
+          "enum": [
+            "customer",
+            "organizer"
+          ],
           "default": "customer",
           "example": "customer"
         }
@@ -654,7 +840,11 @@
         },
         "cancellationPolicy": {
           "type": "string",
-          "enum": ["full refund", "50% refund", "no refund"],
+          "enum": [
+            "full refund",
+            "50% refund",
+            "no refund"
+          ],
           "default": "no refund",
           "example": "full refund"
         },
@@ -677,13 +867,21 @@
         },
         "status": {
           "type": "string",
-          "enum": ["confirmed", "cancelled"],
+          "enum": [
+            "confirmed",
+            "cancelled"
+          ],
           "default": "confirmed",
           "example": "confirmed"
         },
         "refundStatus": {
           "type": "string",
-          "enum": ["not processed", "partial refund", "full refund", "no refund"],
+          "enum": [
+            "not processed",
+            "partial refund",
+            "full refund",
+            "no refund"
+          ],
           "default": "not processed",
           "example": "not processed"
         },
@@ -739,7 +937,11 @@
         },
         "paymentStatus": {
           "type": "string",
-          "enum": ["successful", "failed", "pending"],
+          "enum": [
+            "successful",
+            "failed",
+            "pending"
+          ],
           "default": "pending",
           "example": "successful"
         }

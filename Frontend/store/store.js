@@ -1,11 +1,11 @@
 import {configureStore} from "@reduxjs/toolkit"
 import authReduser from "./slices/authSlice"
-import leadReduser from "./slices/leadSlice"
+import tripReduser from "./slices/tripSlice"
 
 const store = configureStore({
   reducer: {
     auth: authReduser,
-    leads: leadReduser,
+    trips: tripReduser,
   },
 });
 

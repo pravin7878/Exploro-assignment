@@ -59,7 +59,7 @@ const Register = () => {
             return;
         }
 
-        dispatch(registerNewUser({ url: `${import.meta.env.VITE_APP_BACKEND_URL}/user/register`, userData: formData }));
+        dispatch(registerNewUser({ url: `${import.meta.env.VITE_APP_BACKEND_URL}/users/register`, userData: formData }));
 
         setError("");
         

@@ -1,82 +1,98 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createLead, deleteLead, getLeads, updateLead } from "../actions/lead";
+import { createTrip, deleteTrip, getTripById, getTrips, updateTrip } from "../actions/trips";
 
 const initialState = {
   isLodding: false,
   Error: { isErr: false, message: "" },
   addedSuccess: false,
   result: [],
+  tripInfo : {},
   updated : false
 };
 
-const leadSlices = createSlice({
-  name: "lead",
+const tripSlices = createSlice({
+  name: "trip",
   initialState,
   extraReducers : (bulder)=>{
     bulder
-      // tunk for gating leads
-      .addCase(getLeads.pending, (state) => {
+      // tunk for gating Trips
+      .addCase(getTrips.pending, (state) => {
         state.isLodding = true;
       })
-      .addCase(getLeads.fulfilled, (state, { payload }) => {
+      .addCase(getTrips.fulfilled, (state, { payload }) => {
         (state.isLodding = false),
           (state.Error = { isErr: false, message: "" }),
           (state.result = payload);
       })
-      .addCase(getLeads.rejected, (state, payload) => {
+      .addCase(getTrips.rejected, (state, payload) => {
         (state.isLodding = false),
           (state.Error.isErr = true),
           (state.Error.message = payload || "something went wrong");
       })
 
-      // tunk for adding leads
-      .addCase(createLead.pending, (state) => {
+      // tunk for adding Trips
+      .addCase(createTrip.pending, (state) => {
         state.isLodding = true;
       })
-      .addCase(createLead.fulfilled, (state, { payload }) => {
+      .addCase(createTrip.fulfilled, (state, { payload }) => {
         (state.isLodding = false),
           (state.Error = { isErr: false, message: "" }),
           (state.result = payload);
-          state.addedSuccess = true;
+        state.addedSuccess = true;
       })
-      .addCase(createLead.rejected, (state, payload) => {
+      .addCase(createTrip.rejected, (state, payload) => {
         (state.isLodding = false), (state.result = {});
         (state.Error.isErr = true),
           (state.Error.message = payload || "something went wrong");
       })
 
-      // tunk for update leads
-      .addCase(updateLead.pending, (state) => {
+      // tunk for update Trips
+      .addCase(updateTrip.pending, (state) => {
         state.isLodding = true;
       })
-      .addCase(updateLead.fulfilled, (state, { payload }) => {
+      .addCase(updateTrip.fulfilled, (state, { payload }) => {
         (state.isLodding = false),
           (state.Error = { isErr: false, message: "" }),
           (state.result = payload);
-          state.updated = true
+        state.updated = true;
       })
-      .addCase(updateLead.rejected, (state, payload) => {
+      .addCase(updateTrip.rejected, (state, payload) => {
         (state.isLodding = false), (state.result = []);
         (state.Error.isErr = true),
           (state.Error.message = payload || "something went wrong");
       })
 
-      // tunk for remove lead
-      .addCase(deleteLead.pending, (state) => {
+      // tunk for remove Trips
+      .addCase(deleteTrip.pending, (state) => {
         state.isLodding = true;
       })
-      .addCase(deleteLead.fulfilled, (state, { payload }) => {
+      .addCase(deleteTrip.fulfilled, (state, { payload }) => {
         (state.isLodding = false),
           (state.Error = { isErr: false, message: "" }),
           (state.result = payload);
       })
-      .addCase(deleteLead.rejected, (state, payload) => {
+      .addCase(deleteTrip.rejected, (state, payload) => {
         (state.isLodding = false), (state.result = []);
         (state.Error.isErr = true),
           (state.Error.message = payload || "something went wrong");
-      });
+      })
+
+      // thunk for get Trip By Id
+       .addCase(getTripById.pending, (state) => {
+        state.isLodding = true;
+      })
+      .addCase(getTripById.fulfilled, (state, { payload }) => {
+        (state.isLodding = false),
+          (state.Error = { isErr: false, message: "" }),
+          (state.tripInfo = payload);
+      })
+      .addCase(getTripById.rejected, (state, payload) => {
+        (state.isLodding = false),
+          (state.Error.isErr = true),
+          (state.Error.message = payload || "something went wrong");
+      })
   }
 });
 
 
-export default leadSlices.reducer
+export default tripSlices.reducer;

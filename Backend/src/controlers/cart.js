@@ -1,4 +1,5 @@
 const Cart = require("../models/Cart");
+const Trip = require("../models/Trip")
 
 // Add trip to cart
 exports.addToCart = async (req, res, next) => {
@@ -6,23 +7,36 @@ exports.addToCart = async (req, res, next) => {
     const { tripId, quantity = 1 } = req.body;
     const userId = req.user.id;
 
+    if (!tripId || !quantity || quantity <= 0) {
+      return res.status(400).json({ message: "Invalid trip ID or quantity." });
+    }
+
+    const trip = await Trip.findById(tripId);
+    if (!trip) {
+      return res.status(404).json({ message: "Trip not found." });
+    }
+
     let cart = await Cart.findOne({ userId });
 
     if (!cart) {
       cart = new Cart({ userId, trips: [{ tripId, quantity }] });
     } else {
+      // If cart exists, check if the trip already exists
       const tripIndex = cart.trips.findIndex(
         (item) => item.tripId.toString() === tripId
       );
 
       if (tripIndex > -1) {
-        cart.trips[tripIndex].quantity += quantity; //if trip is alredy exist, Increment quantity
+        // If the trip already exists, update its quantity
+        cart.trips[tripIndex].quantity += quantity;
       } else {
-        cart.trips.push({ tripId, quantity }); // Add new trip
+        // If the trip is new to the cart, add it
+        cart.trips.push({ tripId, quantity });
       }
     }
 
     await cart.save();
+
     res.status(200).json({ message: "Trip added to cart", cart });
   } catch (error) {
     next(error);

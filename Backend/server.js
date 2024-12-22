@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const swaggerUi = require('swagger-ui-express');
+const cors = require("cors");
 
 // config files
 const swaggerSpecs = require('./src/config/swagger-output.json'); 
@@ -12,6 +13,7 @@ const {
   notFoundHandler,
 } = require("./src/middelware/errorHendaler");
 
+
 // routes
 const userRouter = require("./src/routes/user")
 const organizerRouter = require("./src/routes/organizer")
@@ -19,8 +21,17 @@ const tripRouter = require("./src/routes/trip")
 const bookingRouter = require("./src/routes/booking")
 const cartRouter = require("./src/routes/cart")
 
+
 const app = express()
 const port = process.env.PORT || 3000
+
+const corsOptions = {
+  origin: "http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json())
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
