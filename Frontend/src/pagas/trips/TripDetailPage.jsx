@@ -3,7 +3,7 @@ import {  useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaCalendarAlt, FaMoneyBillWave, FaUsers, FaRegClock, FaQuestionCircle } from 'react-icons/fa'; // Importing icons
 import Loading from "../../components/Loading";
-import ErrorPage from '../../components/ErrorPage';
+import Error from '../../components/ErrorPage';
 import { getTripById } from '../../../store/actions/trips';
 import { addToCart } from '../../../store/actions/carts';
 
@@ -32,7 +32,7 @@ const TripDetails = () => {
     }
 
     if (error) {
-        return <ErrorPage message={error?.message} />;
+        return <Error message={error?.message} />;
     }
 
     if (tripInfo) {
@@ -147,7 +147,7 @@ const TripDetails = () => {
         );
     }
 
-    return <ErrorPage message="Trip details not found." />;
+    return <Error message="Trip details not found." />;
 };
 
 export default TripDetails;
