@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTrips } from '../../../store/actions/trips';
-import ErrorPage from "../../components/ErrorPage"
+import Error from "../../components/ErrorPage"
 
 const TripList = ({ onDelete, onEdit }) => {
     const dispatch = useDispatch()
@@ -15,7 +15,7 @@ const TripList = ({ onDelete, onEdit }) => {
 
 
 if(Error.isErr){
-    return <ErrorPage message={Error?.message}/>
+    return <Error message={Error?.message}/>
 }
 
     return <section className="my-4">
