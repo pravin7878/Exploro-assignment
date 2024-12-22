@@ -1,17 +1,10 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getTrips } from '../../../store/actions/trips';
+import { useSelector } from 'react-redux';
 import Loading from "../../components/Loading";
 import ErrorPage from '../../components/ErrorPage';
 import TripCard from './TripCard';
 
 export const TripsCont = () => {
-  const dispatch = useDispatch();
   const { result, isLoading, Error } = useSelector(state => state?.trips);
-
-  useEffect(() => {
-    dispatch(getTrips({ url: `${import.meta.env.VITE_APP_BACKEND_URL}/trips` }));
-  }, [dispatch]);
 
   // Loading state
   if (isLoading) {

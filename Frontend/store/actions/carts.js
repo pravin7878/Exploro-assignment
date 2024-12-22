@@ -6,9 +6,13 @@ export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async ({ url, tripId, token }, { rejectWithValue }) => {
     try {
-      const res = await axios.post(url, tripId, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await axios.post(
+        url,
+       {tripId},
+        {
+           headers: { Authorization: `Bearer ${token}` },
+        }
+    );
       return res.data;
     } catch (error) {
       return rejectWithValue(

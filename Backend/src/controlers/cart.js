@@ -5,11 +5,12 @@ const Trip = require("../models/Trip")
 exports.addToCart = async (req, res, next) => {
   try {
     const { tripId, quantity = 1 } = req.body;
-    const userId = req.user.id;
+    const userId = req.user.userId;
 
     if (!tripId || !quantity || quantity <= 0) {
       return res.status(400).json({ message: "Invalid trip ID or quantity." });
     }
+    if(!userId) return res.status(400).json({message : "userId not found"})
 
     const trip = await Trip.findById(tripId);
     if (!trip) {
@@ -37,21 +38,27 @@ exports.addToCart = async (req, res, next) => {
 
     await cart.save();
 
-    res.status(200).json({ message: "Trip added to cart", cart });
+    res.status(201).json({ message: "Trip added to cart", cart });
   } catch (error) {
+    console.log(error);
+    
     next(error);
   }
 };
 
 // Get user's cart
 exports.getCart = async (req, res, next) => {
+  const {userId} = req.user
   try {
-    const cart = await Cart.findOne({ userId: req.user.id }).populate(
+    if (!userId) return res.status(400).json({ message: "userId not found" });
+    const cart = await Cart.findOne({ userId: req.user.userId }).populate(
       "trips.tripId"
     );
     if (!cart || cart.trips.length === 0) {
-      return res.status(200).json({ message: "Cart is empty" });
+      return res.status(200).json({ message: "Cart is empty" , cart : []});
     }
+    console.log("from cart controlers",cart);
+    
     res.status(200).json(cart);
   } catch (error) {
     next(error);

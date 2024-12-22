@@ -14,9 +14,7 @@ export const getTripById = createAsyncThunk(
 );
 export const getTrips = createAsyncThunk(
   "GET_TRIPS",
-  async ({ url, token, queryParams }, { rejectWithValue }) => {
-    console.log(url);
-    
+  async ({ url }, { rejectWithValue }) => {
     try {
       const res = await axios({
         method: "GET",

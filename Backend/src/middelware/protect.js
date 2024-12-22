@@ -29,10 +29,9 @@ const protect = async (req, res, next) => {
     req.user = decoded; 
     next();
   } catch (error) {
-    next(error)
     return res
-      .status(401)
-      .json({ message: "Invalid or expired token" });
+        .status(500)
+        .json({ message: "An error occurred during authentication,Please provide a valid token in autheraizetion header" });
   }
 };
 

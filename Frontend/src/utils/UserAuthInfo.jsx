@@ -4,6 +4,9 @@ import { logoutUser } from "../../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { organizer } from "../scripts/constent";
 
+import CartInfo from ".././utils/CartInfo"
+
+import { IoBagAdd } from "react-icons/io5";
 const UserAuthInfo = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -38,6 +41,7 @@ const UserAuthInfo = () => {
             >
                 Logout
             </button>
+            <CartInfo />
         </div>
     );
 };

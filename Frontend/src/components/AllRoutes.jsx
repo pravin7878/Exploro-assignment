@@ -7,6 +7,7 @@ import { Route, Routes } from 'react-router-dom'
 import { PrivateRoute } from './PrivateRoute'
 import AdminLogin from '../pagas/admin'
 import TripDetails from '../pagas/trips/TripDetailPage'
+import { CartPage } from '../pagas/CartPage'
 // import AddLeadForm from '../pagas/leads/AddNewLead'
 
 export const AllRoutes = () => {
@@ -28,6 +29,7 @@ export const AllRoutes = () => {
 
           <Route path='/admin/login' element={<AdminLogin/>}/> */}
           <Route path="/trips/:id" element={<TripDetails />} />
+          <Route path="/cart" element={<CartPage />} />
           {/* <Route path='/private' element={<PrivateRoute />} /> */}
       </Routes>
   )
