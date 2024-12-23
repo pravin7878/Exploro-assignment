@@ -25,11 +25,23 @@ const cartRouter = require("./src/routes/cart")
 const app = express()
 const port = process.env.PORT || 3000
 
+const allowedOrigins = [
+  "https://smart-trips.vercel.app",
+  "http://localhost:5173",
+];
+
 const corsOptions = {
-  origin: "https://smart-trips.vercel.app", 
+  origin: function (origin, callback) {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: "GET,POST,PUT,DELETE",
   allowedHeaders: "Content-Type,Authorization",
 };
+
 app.use(cors(corsOptions));
 
 app.use(express.json())

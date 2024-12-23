@@ -9,11 +9,12 @@ const {
 const protect = require("../middelware/protect");
 const checkAccess = require("../middelware/chackAccess");
 const { organizer } = require("../utils/constent");
+const validateTripBody = require("../middelware/tripBodyValidater");
 
 const router = express.Router();
 
 // Middleware for routes that require protection and access control
-const organizerAccess = [protect, checkAccess(organizer)];
+const organizerAccess = [protect, checkAccess(organizer),validateTripBody];
 
 // CRUD routes
 router

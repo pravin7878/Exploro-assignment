@@ -2,12 +2,15 @@ const Trip = require("../models/Trip");
 
 // Create a new trip
 exports.createTrip = async (req, res, next) => {
+  const {userId} = req.user
+  const { name, description, startDate, endDate, price, slotsAvailable } =
+    req.body;
   try {
-    const trip = new Trip(req.body);
+    const trip = new Trip({name , description , startDate , endDate , price , slotsAvailable , organizerId : userId});
     const savedTrip = await trip.save();
     res.status(201).json({ message: "New Trip Added Successfully", savedTrip });
   } catch (error) {
-    next(error); // Pass error to the errorHandler middleware
+    next(error); 
   }
 };
 
