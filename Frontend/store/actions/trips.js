@@ -40,7 +40,7 @@ export const createTrip = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-      dispatch(getTrips());
+      dispatch(getTrips({url}));
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response ? err.response.data : err.message);

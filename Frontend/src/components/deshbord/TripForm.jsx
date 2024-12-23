@@ -1,8 +1,15 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import {createTrip , deleteTrip , updateTrip} from "../../../store/actions/trips"
 
-const TripForm = ({ onSubmit, isEditing, trip }) => {
+const TripForm = ({ isEditing, trip }) => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
+const dispatch = useDispatch()
+const {result : {user}} = useSelector(state=>state.auth)
+const {error} = useSelector(state=>state.trips)
+    // console.log(useSelector(state => state.trips));
+
 
     // Reset the form with existing trip data when editing
     React.useEffect(() => {
@@ -11,9 +18,17 @@ const TripForm = ({ onSubmit, isEditing, trip }) => {
         }
     }, [isEditing, trip, reset]);
 
+    const onSubmit = (data) => {
+        console.log(data);
+        const tripData = { ...data, price: Number(data.price), slotsAvailable: Number(data.slotsAvailable)}
+        dispatch(createTrip({ url: `${import.meta.env.VITE_APP_BACKEND_URL}/trips`, token: user?.accessToken, data: tripData }))
+
+    }
+
     return (
         <section className="my-8 p-8 bg-white shadow-md rounded-md max-w-2xl mx-auto">
             <h3 className="text-3xl font-bold text-gray-800 mb-6">{isEditing ? 'Edit Trip' : 'Add New Trip'}</h3>
+            {/* {error.isErr && <p>{error.message}</p>} */}
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div>
                     <label className="block text-lg font-medium text-gray-700 mb-2">Trip Name</label>

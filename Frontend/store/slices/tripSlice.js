@@ -1,19 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createTrip, deleteTrip, getTripById, getTrips, updateTrip } from "../actions/trips";
+import {
+  createTrip,
+  deleteTrip,
+  getTripById,
+  getTrips,
+  updateTrip,
+} from "../actions/trips";
+import { toast } from "react-toastify";
 
 const initialState = {
   isLodding: false,
   error: { isErr: false, message: "" },
   addedSuccess: false,
   result: [],
-  tripInfo : {},
-  updated : false
+  tripInfo: {},
+  updated: false,
 };
 
 const tripSlices = createSlice({
   name: "trip",
   initialState,
-  extraReducers : (bulder)=>{
+  extraReducers: (bulder) => {
     bulder
       // tunk for gating Trips
       .addCase(getTrips.pending, (state) => {
@@ -27,7 +34,8 @@ const tripSlices = createSlice({
       .addCase(getTrips.rejected, (state, payload) => {
         (state.isLodding = false),
           (state.error.isErr = true),
-          (state.error.message = payload?.payload?.message || "something went wrong");
+          (state.error.message =
+            payload?.payload?.message || "something went wrong");
       })
 
       // tunk for adding Trips
@@ -39,11 +47,12 @@ const tripSlices = createSlice({
           (state.error = { isErr: false, message: "" }),
           (state.result = payload);
         state.addedSuccess = true;
+        toast.success("trip added success");
       })
       .addCase(createTrip.rejected, (state, payload) => {
         (state.isLodding = false), (state.result = {});
         (state.error.isErr = true),
-          (state.error.message = payload || "something went wrong");
+          (state.error.message = payload?.payload?.error || "something went wrong");
       })
 
       // tunk for update Trips
@@ -55,6 +64,7 @@ const tripSlices = createSlice({
           (state.error = { isErr: false, message: "" }),
           (state.result = payload);
         state.updated = true;
+        toast.success(payload?.message);
       })
       .addCase(updateTrip.rejected, (state, payload) => {
         (state.isLodding = false), (state.result = []);
@@ -75,10 +85,11 @@ const tripSlices = createSlice({
         (state.isLodding = false), (state.result = []);
         (state.error.isErr = true),
           (state.error.message = payload || "something went wrong");
+        toast.success(payload?.message);
       })
 
       // thunk for get Trip By Id
-       .addCase(getTripById.pending, (state) => {
+      .addCase(getTripById.pending, (state) => {
         state.isLodding = true;
       })
       .addCase(getTripById.fulfilled, (state, { payload }) => {
@@ -90,9 +101,8 @@ const tripSlices = createSlice({
         (state.isLodding = false),
           (state.error.isErr = true),
           (state.error.message = payload || "something went wrong");
-      })
-  }
+      });
+  },
 });
-
 
 export default tripSlices.reducer;
