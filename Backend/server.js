@@ -27,8 +27,6 @@ const port = process.env.PORT || 3000
 
 const corsOptions = {
   origin: `${process.env.VITE_APP_BACKEND_URL}`,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
 };
 
 app.use(cors(corsOptions));
