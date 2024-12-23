@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTrips } from '../../../store/actions/trips';
-import ErrorPage from "../../components/ErrorPage"
+// import ErrorPage from "../../components/ErrorPage"
 import Loading from "../../components/Loading"
 
 const TripList = ({ onDelete, onEdit }) => {
@@ -16,7 +16,8 @@ const TripList = ({ onDelete, onEdit }) => {
 
 
     if (error.isErr){
-        return <ErrorPage message={error?.message}/>
+        // return <ErrorPage message={error?.message}/>
+        return <p>Error...</p>
 }
 
     if (!result || result.length === 0) {

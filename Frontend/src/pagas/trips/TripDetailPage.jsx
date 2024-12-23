@@ -5,7 +5,7 @@ import { FaCalendarAlt, FaMoneyBillWave, FaUsers, FaRegClock, FaQuestionCircle }
 import Loading from "../../components/Loading";
 import { getTripById } from '../../../store/actions/trips';
 import { addToCart } from '../../../store/actions/carts';
-import ErrorPage from '../../components/ErrorPage';
+// import ErrorPage from '../../components/ErrorPage';
 
 const TripDetails = () => {
     const { id } = useParams();
@@ -32,7 +32,9 @@ const TripDetails = () => {
     }
 
     if (error.isErr) {
-        return <ErrorPage message={error?.message}/>;
+        // return <ErrorPage message={error?.message}/>;
+        return <p>Error...</p>
+
     }
 
     if (tripInfo) {
@@ -147,7 +149,9 @@ const TripDetails = () => {
         );
     }
 
-    return <ErrorPage message="Trip details not found." />;
+    // return <ErrorPage message="Trip details not found." />;
+    return <p>Error...</p>
+
 };
 
 export default TripDetails;
