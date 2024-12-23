@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import {  useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { FaCalendarAlt, FaMoneyBillWave, FaUsers, FaRegClock, FaQuestionCircle } from 'react-icons/fa'; // Importing icons
+import { FaCalendarAlt, FaMoneyBillWave, FaUsers, FaRegClock, FaQuestionCircle } from 'react-icons/fa'; 
 import Loading from "../../components/Loading";
 import { getTripById } from '../../../store/actions/trips';
 import { addToCart } from '../../../store/actions/carts';

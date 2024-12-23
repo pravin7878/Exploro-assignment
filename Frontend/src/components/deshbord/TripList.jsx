@@ -19,9 +19,15 @@ const TripList = ({ onDelete, onEdit }) => {
         return <ErrorPage message={error?.message}/>
 }
 
+    if (!result || result.length === 0) {
+        return <div className='flex flex-col justify-center items-center shadow-md py-3 border rounded-lg'>
+            <h3 className="text-2xl font-semibold text-red-500">You Do Not added any trip yet!</h3>
+            <p>please add new trip</p>
+        </div>
+    }
+
     return <section className="my-4">
         <h3 className="text-2xl font-semibold mb-4">My Trips</h3>
-        
 
         {isLodding ? (
             <Loading/>
