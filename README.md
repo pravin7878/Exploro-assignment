@@ -2,8 +2,12 @@
 
 **SmartTrips** is a full-featured platform for customers and organizers to book and manage trips seamlessly. Whether you're planning your next vacation or organizing trips for others, SmartTrips offers a secure, intuitive, and user-friendly experience.  
 
-## 🌟 Features  
 
+## 🌟 Features  
+### Backend Overview
+   - **Backned docs** : [backned docs](https://smarttrips.onrender.com/api-docs/)
+
+### Frontend Overview
 ### 🔑 User Authentication  
 
 1. **Registration**  
