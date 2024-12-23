@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import Loading from "../../components/Loading";
-import ErrorPage from '../../components/ErrorPage';
+// import ErrorPage from '../../components/ErrorPage';
 import TripCard from './TripCard';
 
 export const TripsCont = () => {
@@ -16,7 +16,9 @@ console.log(error);
 
   // Error state
   if (error?.isErr) {
-    return <ErrorPage message={error.message}/>
+    // return <ErrorPage message={error.message}/>
+    return <p>Error...</p>
+
   }
 
   // return (
