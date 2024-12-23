@@ -26,7 +26,7 @@ const app = express()
 const port = process.env.PORT || 3000
 
 const corsOptions = {
-  origin: `${process.env.VITE_APP_BACKEND_URL}`,
+  origin: `https://smart-trips.vercel.app/`,
 };
 
 app.use(cors(corsOptions));
