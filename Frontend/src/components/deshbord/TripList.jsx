@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTrips } from '../../../store/actions/trips';
-import Error from "../../components/ErrorPage"
+import ErrorPage from "../../components/ErrorPage"
+import Loading from "../../components/Loading"
 
 const TripList = ({ onDelete, onEdit }) => {
     const dispatch = useDispatch()
-    const { result, isLodding, Error } = useSelector(state => state.trips)
+    const { result, isLodding, error } = useSelector(state => state.trips)
     console.log(useSelector(state => state.trips));
 
 
@@ -14,8 +15,8 @@ const TripList = ({ onDelete, onEdit }) => {
     }, [dispatch])
 
 
-if(Error.isErr){
-    return <Error message={Error?.message}/>
+    if (error.isErr){
+        return <ErrorPage message={error?.message}/>
 }
 
     return <section className="my-4">
@@ -23,7 +24,7 @@ if(Error.isErr){
         
 
         {isLodding ? (
-            <p>Loading...</p>
+            <Loading/>
         ) : (
             <ul className="space-y-4">
                     {result?.map((trip) => (

@@ -26,6 +26,8 @@ export const getTrips = createAsyncThunk(
       });
       return res.data;
     } catch (err) {
+      console.log("from action",err);
+      
       return rejectWithValue(err.response ? err.response.data : err.message);
     }
   }

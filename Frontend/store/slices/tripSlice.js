@@ -3,7 +3,7 @@ import { createTrip, deleteTrip, getTripById, getTrips, updateTrip } from "../ac
 
 const initialState = {
   isLodding: false,
-  Error: { isErr: false, message: "" },
+  error: { isErr: false, message: "" },
   addedSuccess: false,
   result: [],
   tripInfo : {},
@@ -21,13 +21,13 @@ const tripSlices = createSlice({
       })
       .addCase(getTrips.fulfilled, (state, { payload }) => {
         (state.isLodding = false),
-          (state.Error = { isErr: false, message: "" }),
+          (state.error = { isErr: false, message: "" }),
           (state.result = payload);
       })
       .addCase(getTrips.rejected, (state, payload) => {
         (state.isLodding = false),
-          (state.Error.isErr = true),
-          (state.Error.message = payload || "something went wrong");
+          (state.error.isErr = true),
+          (state.error.message = payload?.payload?.message || "something went wrong");
       })
 
       // tunk for adding Trips
@@ -36,14 +36,14 @@ const tripSlices = createSlice({
       })
       .addCase(createTrip.fulfilled, (state, { payload }) => {
         (state.isLodding = false),
-          (state.Error = { isErr: false, message: "" }),
+          (state.error = { isErr: false, message: "" }),
           (state.result = payload);
         state.addedSuccess = true;
       })
       .addCase(createTrip.rejected, (state, payload) => {
         (state.isLodding = false), (state.result = {});
-        (state.Error.isErr = true),
-          (state.Error.message = payload || "something went wrong");
+        (state.error.isErr = true),
+          (state.error.message = payload || "something went wrong");
       })
 
       // tunk for update Trips
@@ -52,14 +52,14 @@ const tripSlices = createSlice({
       })
       .addCase(updateTrip.fulfilled, (state, { payload }) => {
         (state.isLodding = false),
-          (state.Error = { isErr: false, message: "" }),
+          (state.error = { isErr: false, message: "" }),
           (state.result = payload);
         state.updated = true;
       })
       .addCase(updateTrip.rejected, (state, payload) => {
         (state.isLodding = false), (state.result = []);
-        (state.Error.isErr = true),
-          (state.Error.message = payload || "something went wrong");
+        (state.error.isErr = true),
+          (state.error.message = payload || "something went wrong");
       })
 
       // tunk for remove Trips
@@ -68,13 +68,13 @@ const tripSlices = createSlice({
       })
       .addCase(deleteTrip.fulfilled, (state, { payload }) => {
         (state.isLodding = false),
-          (state.Error = { isErr: false, message: "" }),
+          (state.error = { isErr: false, message: "" }),
           (state.result = payload);
       })
       .addCase(deleteTrip.rejected, (state, payload) => {
         (state.isLodding = false), (state.result = []);
-        (state.Error.isErr = true),
-          (state.Error.message = payload || "something went wrong");
+        (state.error.isErr = true),
+          (state.error.message = payload || "something went wrong");
       })
 
       // thunk for get Trip By Id
@@ -83,13 +83,13 @@ const tripSlices = createSlice({
       })
       .addCase(getTripById.fulfilled, (state, { payload }) => {
         (state.isLodding = false),
-          (state.Error = { isErr: false, message: "" }),
+          (state.error = { isErr: false, message: "" }),
           (state.tripInfo = payload);
       })
       .addCase(getTripById.rejected, (state, payload) => {
         (state.isLodding = false),
-          (state.Error.isErr = true),
-          (state.Error.message = payload || "something went wrong");
+          (state.error.isErr = true),
+          (state.error.message = payload || "something went wrong");
       })
   }
 });
